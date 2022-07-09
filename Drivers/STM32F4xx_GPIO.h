@@ -18,23 +18,23 @@
 typedef struct
 {
 
-	volatile uint32_t MODER;		//port mode register
-	volatile uint32_t OTYPER;		//port output type register
-	volatile uint32_t OSPEEDR;		//port output speed register
-	volatile uint32_t PUPDR;		//port pull-up/pull-down register
-	volatile uint32_t IDR;			//port input data register
-	volatile uint32_t ODR;			//port output data register
-	volatile uint32_t BSRR;			//port bit set/reset register
-	volatile uint32_t LCKR;			//port configuration lock register
-	volatile uint64_t AFR;			//alternate function low register
-	uint32_t reserved[245];			//padding
+	volatile uint32_t MODER;
+	volatile uint32_t OTYPER;
+	volatile uint32_t OSPEEDR;
+	volatile uint32_t PUPDR;
+	volatile uint32_t IDR;
+	volatile uint32_t ODR;
+	volatile uint32_t BSRR;
+	volatile uint32_t LCKR;
+	volatile uint64_t AFR;
+	uint32_t reserved[245];
 
 }GPIOx_RegDef_t;
 
 typedef struct
 {
 
-	GPIOx_RegDef_t PORT[11];		//GPIO from A to K
+	GPIOx_RegDef_t PORT[11];
 
 }GPIO_RegDef_t;
 
@@ -268,7 +268,6 @@ typedef enum {PUPD_FLOAT=0,PUPD_PULLUP=1,PUPD_PULLDOWN=2}Pin_PUPD;
 /*
  * @GPIO_ALTFN
  * GPIO pin possible Alternate Functions
- * Please see the datasheet for each pin
  */
 
 #define GPIO_AF0 	0
@@ -295,17 +294,17 @@ typedef enum {PUPD_FLOAT=0,PUPD_PULLUP=1,PUPD_PULLDOWN=2}Pin_PUPD;
  *  Function Prototypes
  */
 
-extern void GPIO_Port_CLK_Enable(Port_Name PORT);
-extern void GPIO_Port_CLK_Disable(Port_Name PORT);
-extern void GPIO_Pin_Initialize(Port_Name PORT, uint8_t PIN_NUMBER, Pin_Mode MODE, Pin_Output_Type OTYPE, Pin_Output_Speed OSPEED, Pin_PUPD PULLUPDOWN);
-extern void GPIO_Pin_Set_Alternate_Function(Port_Name PORT, uint8_t PIN_NUMBER, uint8_t ALTFN);
-extern void GPIO_Port_DeInitialize(Port_Name PORT);
-extern void GPIO_Pin_DeInitialize(Port_Name PORT, uint8_t PIN_NUMBER);
-extern uint8_t GPIO_Pin_Read(Port_Name PORT, uint8_t PIN_NUMBER);
-extern uint16_t GPIO_Port_Read(Port_Name PORT);
-extern void GPIO_Pin_Write(Port_Name PORT, uint8_t PIN_NUMBER, Pin_State State);
-extern void GPIO_Port_Write(Port_Name PORT, uint16_t Value);
-extern void GPIO_Pin_Toggle(Port_Name PORT, uint8_t PIN_NUMBER);
+void GPIO_Port_CLK_Enable(Port_Name PORT);
+void GPIO_Port_CLK_Disable(Port_Name PORT);
+void GPIO_Pin_Initialize(Port_Name PORT, uint8_t PIN_NUMBER, Pin_Mode MODE, Pin_Output_Type OTYPE, Pin_Output_Speed OSPEED, Pin_PUPD PULLUPDOWN);
+void GPIO_Pin_Set_Alternate_Function(Port_Name PORT, uint8_t PIN_NUMBER, uint8_t ALTFN);
+void GPIO_Port_DeInitialize(Port_Name PORT);
+void GPIO_Pin_DeInitialize(Port_Name PORT, uint8_t PIN_NUMBER);
+uint8_t GPIO_Pin_Read(Port_Name PORT, uint8_t PIN_NUMBER);
+uint16_t GPIO_Port_Read(Port_Name PORT);
+void GPIO_Pin_Write(Port_Name PORT, uint8_t PIN_NUMBER, Pin_State State);
+void GPIO_Port_Write(Port_Name PORT, uint16_t Value);
+void GPIO_Pin_Toggle(Port_Name PORT, uint8_t PIN_NUMBER);
 
 /********************************************************************************************************/
 

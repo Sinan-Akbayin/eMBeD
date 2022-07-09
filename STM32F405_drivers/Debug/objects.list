@@ -1,5 +1,0 @@
-"./Drivers/STM32F4xx_GPIO.o"
-"./Src/main.o"
-"./Src/syscalls.o"
-"./Src/sysmem.o"
-"./Startup/startup_stm32f407vgtx.o"

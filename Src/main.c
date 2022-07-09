@@ -22,7 +22,7 @@
 
 #include "STM32F4xx_GPIO.h"
 
-void SysClockConfig(void);
+static void SysClockConfig(void);
 
 uint8_t a;
 

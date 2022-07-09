@@ -1,0 +1,8 @@
+/Debug/
+/Release/
+*.html
+*.txt
+*.png
+*.zip
+*.img
+.vscode/

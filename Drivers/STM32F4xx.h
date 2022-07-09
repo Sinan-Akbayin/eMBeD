@@ -303,7 +303,6 @@ typedef struct
 }FLASH_CR_t;
 
 //Flash option control register (FLASH_OPTCR) for STM32F405xx/07xx and STM32F415xx/17xx
-//TODO: Implement flash control registers for (STM32F42xxx and STM32F43xxx)
 typedef struct
 {
 
@@ -321,7 +320,7 @@ typedef struct
 }FLASH_OPTCR_t;
 
 
-//Whole FLASH registers.
+//Whole RCC registers.
 typedef struct
 {
 

@@ -8,7 +8,7 @@
 
 #include "STM32F4xx_GPIO.h"
 
-extern void GPIO_Port_CLK_Enable(Port_Name PORT){
+void GPIO_Port_CLK_Enable(Port_Name PORT){
 
 	switch(PORT){
 	case 0:
@@ -48,7 +48,7 @@ extern void GPIO_Port_CLK_Enable(Port_Name PORT){
 
 }
 
-extern void GPIO_Port_CLK_Disable(Port_Name PORT){
+void GPIO_Port_CLK_Disable(Port_Name PORT){
 
 	switch(PORT){
 	case 0:
@@ -85,16 +85,10 @@ extern void GPIO_Port_CLK_Disable(Port_Name PORT){
 		RCC->AHB1ENR.GPIOKEN = 0;
 		break;
 	}
+
 }
 
-
-//TODO:Complete the function descriptions.
-/**
-  * @brief  Initializes the GPIOx pins according to the specified parameters.
-  * @param  Port can be PORTx (A..K) to select the GPIO peripheral for STM32F40XX and STM32F427X devices.
-  * @retval None
-  */
-extern void GPIO_Pin_Initialize(Port_Name PORT, uint8_t PIN_NUMBER, Pin_Mode MODE, Pin_Output_Type OTYPE, Pin_Output_Speed OSPEED, Pin_PUPD PULLUPDOWN)
+void GPIO_Pin_Initialize(Port_Name PORT, uint8_t PIN_NUMBER, Pin_Mode MODE, Pin_Output_Type OTYPE, Pin_Output_Speed OSPEED, Pin_PUPD PULLUPDOWN)
 {
 
 	GPIO_Port_CLK_Enable(PORT);								//Enabling the corresponding GPIO Clock
@@ -117,7 +111,7 @@ extern void GPIO_Pin_Initialize(Port_Name PORT, uint8_t PIN_NUMBER, Pin_Mode MOD
 
 }
 
-extern void GPIO_Pin_Set_Alternate_Function(Port_Name PORT, uint8_t PIN_NUMBER, uint8_t ALTFN)
+void GPIO_Pin_Set_Alternate_Function(Port_Name PORT, uint8_t PIN_NUMBER, uint8_t ALTFN)
 {
 
 	GPIO->PORT[PORT].AFR &= ~(0xF<<(PIN_NUMBER*4));		//Clearing the alternate function down register
@@ -126,7 +120,7 @@ extern void GPIO_Pin_Set_Alternate_Function(Port_Name PORT, uint8_t PIN_NUMBER, 
 
 }
 
-extern void GPIO_Port_DeInitialize(Port_Name PORT)
+void GPIO_Port_DeInitialize(Port_Name PORT)
 {
 	switch(PORT){
 	case 0:
@@ -188,7 +182,7 @@ extern void GPIO_Port_DeInitialize(Port_Name PORT)
 
 }
 
-extern void GPIO_Pin_DeInitialize(Port_Name PORT, uint8_t PIN_NUMBER){
+void GPIO_Pin_DeInitialize(Port_Name PORT, uint8_t PIN_NUMBER){
 
 	GPIO_Port_CLK_Enable(PORT);								//Enabling the corresponding GPIO Clock
 
@@ -212,34 +206,34 @@ extern void GPIO_Pin_DeInitialize(Port_Name PORT, uint8_t PIN_NUMBER){
 	}
 }
 
-extern uint8_t GPIO_Pin_Read(Port_Name PORT, uint8_t PIN_NUMBER)
+uint8_t GPIO_Pin_Read(Port_Name PORT, uint8_t PIN_NUMBER)
 {
 
 	return (uint8_t)((GPIO->PORT[PORT].IDR >> PIN_NUMBER) & 0x1);
 
 }
 
-extern uint16_t GPIO_Port_Read(Port_Name PORT)
+uint16_t GPIO_Port_Read(Port_Name PORT)
 {
 
 	return (uint16_t)((GPIO->PORT[PORT].IDR));
 
 }
 
-extern void GPIO_Pin_Write(Port_Name PORT, uint8_t PIN_NUMBER, Pin_State State)
+void GPIO_Pin_Write(Port_Name PORT, uint8_t PIN_NUMBER, Pin_State State)
 {
 
 	GPIO->PORT[PORT].ODR = (GPIO->PORT[PORT].ODR & ~(0x1 << PIN_NUMBER)) | (State << PIN_NUMBER);
 
 }
 
-extern void GPIO_Port_Write(Port_Name PORT, uint16_t Value){
+void GPIO_Port_Write(Port_Name PORT, uint16_t Value){
 
 	GPIO->PORT[PORT].ODR = Value;
 
 }
 
-extern void GPIO_Pin_Toggle(Port_Name PORT, uint8_t PIN_NUMBER){
+void GPIO_Pin_Toggle(Port_Name PORT, uint8_t PIN_NUMBER){
 
 	GPIO->PORT[PORT].ODR ^= ( 1 << PIN_NUMBER);
 }
