@@ -336,6 +336,7 @@ typedef struct
 
 
 /********************************************************************************************************/
+//TODO:Add SYSCONFIG register here.
 
 /*
  * Peripheral Pointer Definitions
