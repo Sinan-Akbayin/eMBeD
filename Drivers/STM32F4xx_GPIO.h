@@ -10,6 +10,7 @@
 
 #include "STM32F4xx_rcc.h"
 
+
 /**********************************************************************************************************************/
 /*
  * General Purpose Input Output (GPIOx) register typedefs.
@@ -288,8 +289,45 @@ typedef enum {PUPD_FLOAT=0,PUPD_PULLUP=1,PUPD_PULLDOWN=2}Pin_PUPD;
 #define GPIO_AF15 	15
 
 /********************************************************************************************************/
+typedef void (*config_gpio)(void *sturct_base_address,Port_Name PORT, uint8_t PIN_NUMBER, Pin_Mode MODE, Pin_Output_Type OTYPE, Pin_Output_Speed OSPEED, Pin_PUPD PULLUPDOWN);
 
+typedef void (*initialize_gpio)(void *sturct_base_address);
 
+typedef Pin_State (*read_gpio)(void *sturct_base_address);
+
+typedef void (*write_gpio)(void *sturct_base_address,Pin_State State);
+
+typedef struct{
+	
+	config_gpio	config;
+	initialize_gpio init;
+	read_gpio read;
+	write_gpio write;
+
+}GPIO_Interfaces_t;
+
+typedef struct{
+	/*
+	* Interfaces
+	*/
+	GPIO_Interfaces_t Interfaces;
+	/*
+	* Variables
+	*/
+	Port_Name PORT;
+	uint8_t PIN_NUMBER;
+	Pin_Mode MODE;
+	Pin_Output_Type OTYPE;
+	Pin_Output_Speed OSPEED;
+	Pin_PUPD PULLUPDOWN;
+	Pin_State State;
+
+}GPIO_Obj_t;
+
+/*
+ *  Public Functions
+*/
+void GPIO_Init_Interfaces(GPIO_Obj_t *GPIO_OBJ);
 /*
  *  Function Prototypes
  */
@@ -300,7 +338,7 @@ void GPIO_Pin_Initialize(Port_Name PORT, uint8_t PIN_NUMBER, Pin_Mode MODE, Pin_
 void GPIO_Pin_Set_Alternate_Function(Port_Name PORT, uint8_t PIN_NUMBER, uint8_t ALTFN);
 void GPIO_Port_DeInitialize(Port_Name PORT);
 void GPIO_Pin_DeInitialize(Port_Name PORT, uint8_t PIN_NUMBER);
-uint8_t GPIO_Pin_Read(Port_Name PORT, uint8_t PIN_NUMBER);
+Pin_State GPIO_Pin_Read(Port_Name PORT, uint8_t PIN_NUMBER);
 uint16_t GPIO_Port_Read(Port_Name PORT);
 void GPIO_Pin_Write(Port_Name PORT, uint8_t PIN_NUMBER, Pin_State State);
 void GPIO_Port_Write(Port_Name PORT, uint16_t Value);

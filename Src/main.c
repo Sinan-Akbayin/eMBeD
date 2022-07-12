@@ -26,19 +26,35 @@ static void SysClockConfig(void);
 
 uint8_t a;
 
+GPIO_Obj_t red_led,button;
+
 int main(void)
 {
 
 	SysClockConfig();
 
-	GPIO_Pin_Initialize(PORTA, PA0, MODE_INPUT, OTYPE_PUSHPULL, OSPEED_VERYHIGH, PUPD_FLOAT);
+	GPIO_Init_Interfaces(&red_led);
 
-	GPIO_Pin_Initialize(PORTD, PD12, MODE_OUTPUT, OTYPE_PUSHPULL, OSPEED_MEDIUM, PUPD_FLOAT);
+	GPIO_Init_Interfaces(&button);
+
+	red_led.Interfaces.config(&red_led, PORTD, PD12, MODE_OUTPUT, OTYPE_PUSHPULL, OSPEED_MEDIUM, PUPD_FLOAT);
+
+	button.Interfaces.config(&button,PORTA, PA0, MODE_INPUT, OTYPE_PUSHPULL, OSPEED_VERYHIGH, PUPD_FLOAT);
+
+	red_led.Interfaces.init(&red_led);
+
+	button.Interfaces.init(&button);
+	
+	//GPIO_Pin_Initialize(PORTA, PA0, MODE_INPUT, OTYPE_PUSHPULL, OSPEED_VERYHIGH, PUPD_FLOAT);
+
+	//GPIO_Pin_Initialize(PORTD, PD12, MODE_OUTPUT, OTYPE_PUSHPULL, OSPEED_MEDIUM, PUPD_FLOAT);
 
     /* Loop forever */
 	while(1){
 
-		GPIO_Pin_Write(PORTD, PD12, GPIO_Pin_Read(PORTA,PA0));
+		red_led.Interfaces.write(&red_led, button.Interfaces.read(&button));
+
+		//GPIO_Pin_Write(PORTD, PD12, GPIO_Pin_Read(PORTA,PA0));
 
 	}
 

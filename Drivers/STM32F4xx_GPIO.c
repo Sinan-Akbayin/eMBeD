@@ -8,6 +8,64 @@
 
 #include "STM32F4xx_GPIO.h"
 
+static void GPIO_Config(void *sturct_base_address,Port_Name PORT, uint8_t PIN_NUMBER, Pin_Mode MODE, Pin_Output_Type OTYPE, Pin_Output_Speed OSPEED, Pin_PUPD PULLUPDOWN);
+
+static void GPIO_Init(void *sturct_base_address);
+
+static Pin_State GPIO_Read(void *sturct_base_address);
+
+static void GPIO_Write(void *sturct_base_address, Pin_State State);
+
+void GPIO_Init_Interfaces(GPIO_Obj_t *GPIO_OBJ){
+
+	GPIO_OBJ->Interfaces.config = GPIO_Config;
+
+	GPIO_OBJ->Interfaces.init 	= GPIO_Init;
+
+	GPIO_OBJ->Interfaces.read 	= GPIO_Read;
+
+	GPIO_OBJ->Interfaces.write  = GPIO_Write;
+
+}
+void GPIO_Config(void *sturct_base_address, Port_Name PORT, uint8_t PIN_NUMBER, Pin_Mode MODE, Pin_Output_Type OTYPE, Pin_Output_Speed OSPEED, Pin_PUPD PULLUPDOWN){
+
+	GPIO_Obj_t *GPIO_OBJ = sturct_base_address;
+
+	GPIO_OBJ->PORT = PORT;
+
+	GPIO_OBJ->PIN_NUMBER = PIN_NUMBER;
+
+	GPIO_OBJ->MODE = MODE;
+
+	GPIO_OBJ->OTYPE = OTYPE;
+
+	GPIO_OBJ->OSPEED = OSPEED;
+
+	GPIO_OBJ->PULLUPDOWN = PULLUPDOWN;
+
+}
+void GPIO_Init(void *sturct_base_address){
+
+	GPIO_Obj_t *GPIO_OBJ = sturct_base_address;
+
+	GPIO_Pin_Initialize(GPIO_OBJ->PORT, GPIO_OBJ->PIN_NUMBER, GPIO_OBJ->MODE, GPIO_OBJ->OTYPE, GPIO_OBJ->OSPEED , GPIO_OBJ->PULLUPDOWN);
+
+}
+Pin_State GPIO_Read(void *sturct_base_address){
+
+	GPIO_Obj_t *GPIO_OBJ = sturct_base_address;
+
+	return GPIO_Pin_Read(GPIO_OBJ->PORT, GPIO_OBJ->PIN_NUMBER);
+
+}
+void GPIO_Write(void *sturct_base_address,Pin_State State){
+
+	GPIO_Obj_t *GPIO_OBJ = sturct_base_address;
+
+	GPIO_Pin_Write(GPIO_OBJ->PORT, GPIO_OBJ->PIN_NUMBER, State);
+
+}
+
 void GPIO_Port_CLK_Enable(Port_Name PORT){
 
 	switch(PORT){
@@ -206,10 +264,10 @@ void GPIO_Pin_DeInitialize(Port_Name PORT, uint8_t PIN_NUMBER){
 	}
 }
 
-uint8_t GPIO_Pin_Read(Port_Name PORT, uint8_t PIN_NUMBER)
+Pin_State GPIO_Pin_Read(Port_Name PORT, uint8_t PIN_NUMBER)
 {
 
-	return (uint8_t)((GPIO->PORT[PORT].IDR >> PIN_NUMBER) & 0x1);
+	return (Pin_State)((GPIO->PORT[PORT].IDR >> PIN_NUMBER) & 0x1);
 
 }
 
