@@ -39,7 +39,7 @@ int main(void)
 
 	red_led.Interfaces.config(&red_led, PORTD, PD12, MODE_OUTPUT, OTYPE_PUSHPULL, OSPEED_MEDIUM, PUPD_FLOAT);
 
-	button.Interfaces.config(&button,PORTA, PA0, MODE_INPUT, OTYPE_PUSHPULL, OSPEED_VERYHIGH, PUPD_FLOAT);
+	button.Interfaces.config(&button,PORTA, PA0, MODE_INPUT, OTYPE_PUSHPULL, OSPEED_VERYHIGH, PUPD_PULLDOWN);
 
 	red_led.Interfaces.init(&red_led);
 
